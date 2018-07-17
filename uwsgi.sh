@@ -29,7 +29,6 @@ state(){
   ps -ef | grep uwsgi3 | grep -v grep
 }
 
-
 if [ $# != 1 ]; then
   usage
 elif [ $1 == 'start' ]; then
