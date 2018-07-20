@@ -50,7 +50,7 @@ def _api(name, script):
             pass
     # multi args
     if not args['reqD']:
-        args['reqD'] = dict(urllib.parse.parse_qsl(req.data))
+        args['reqD'] = dict(urllib.parse.parse_qsl(req.data.decode('utf8')))
 
     mod = ''
     rspCode = ''

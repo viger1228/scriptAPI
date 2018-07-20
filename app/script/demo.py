@@ -30,6 +30,8 @@ class Mod(mod.REST):
         # self.reqH
         # self.reqD
         # self.logger
+        # self.rspCode
+        # self.rspD
 
     def get(self):
         
