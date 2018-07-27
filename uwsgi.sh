@@ -6,27 +6,28 @@ pid=uwsgi.pid
 log=logs/uwsgi.log
 
 cd $dir
+path=`echo \`pwd\` | awk -F '/' '{print $NF}'`
 
 usage(){
   echo -e '\033[31m'
   echo -e 'Usage:'
-  echo -e	'	uwsgi.sh [start|stop|restart]'
+  echo -e '	uwsgi.sh [start|stop|restart]'
   echo -e '\033[0m'
 }
 
 start(){
-  uwsgi3 --ini config.ini
+  uwsgi3 --ini config.ini --pyargv $path
   sleep 1
   num=`grep -n 'Starting uWSGI' $log | gawk -F ':' '{print $1}' | tail -n 1`
   sed -n $num',$p' $log
 }
 
 stop(){
-  pkill -9 uwsgi3
+  kill -9 `ps aux | grep uwsgi3 | grep $path | grep -v grep | awk '{print $2}'`
 }
 
 state(){
-  ps -ef | grep uwsgi3 | grep -v grep
+  ps aux | grep uwsgi3 | grep $path | grep -v grep
 }
 
 if [ $# != 1 ]; then
