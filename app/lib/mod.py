@@ -68,7 +68,17 @@ class REST(object):
         return msg
 
     def get(self):
+        try:
+            pass
+        except Exception:
+            error = traceback.format_exc()
+            self.logger.error(error)
+            self.rspD['error'] = 'The parameter missing'
+            self.rspCode = 400
+            return
+
         msg = datetime.now().strftime('%c')
+        self.rspCode = 200
         self.rspD['data'] = msg
 
     def post(self):
