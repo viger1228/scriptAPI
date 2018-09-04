@@ -59,7 +59,7 @@ class REST(object):
         msg = str(self.rspD)
         if isinstance(self.rspD, dict):
             self.rspD['status'] = self.rspCode
-            self.rspD['message'] = tool.http_msg[self.rspCode]
+            self.rspD['message'] = tool.http_msg[int(self.rspCode)]
             self.rspD['rsp_time'] = '%0.2f sec'%(eTime-sTime)
             msg = json.dumps(self.rspD)
         self.close()
@@ -68,17 +68,7 @@ class REST(object):
         return msg
 
     def get(self):
-        try:
-            pass
-        except Exception:
-            error = traceback.format_exc()
-            self.logger.error(error)
-            self.rspD['error'] = 'The parameter missing'
-            self.rspCode = 400
-            return
-
         msg = datetime.now().strftime('%c')
-        self.rspCode = 200
         self.rspD['data'] = msg
 
     def post(self):
