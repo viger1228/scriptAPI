@@ -25,7 +25,11 @@ class REST(object):
         self.reqD = args['reqD']
         self.method = method
 
+        # Print response data
         self.print_rspD = True
+
+        # is file?
+        self.isfile = False
         
         # Print Request Info
         if req:
@@ -56,8 +60,9 @@ class REST(object):
             self.rspCode = 500
         eTime = time.time()
 
-        msg = str(self.rspD)
-        if isinstance(self.rspD, dict):
+        if self.isfile:
+            msg = str(self.rspD)
+        elif isinstance(self.rspD, dict):
             self.rspD['status'] = self.rspCode
             self.rspD['message'] = tool.http_msg[int(self.rspCode)]
             self.rspD['rsp_time'] = '%0.2f sec'%(eTime-sTime)

@@ -26,6 +26,10 @@ class Mod(mod.REST):
 
         # Print response data
         self.print_rspD = True
+ 
+        # is file?
+        self.isfile = False
+        #self.rspH = {'Content-Type': 'text/html; charset=utf-8'}      
 
         # self.reqH
         # self.reqD
