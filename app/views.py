@@ -22,10 +22,46 @@ from lib import tool
 
 logger = tool.Log().file_logger(__name__)
 
+# Doc
+@app.route('/doc/')
+def _doc_index():
+    reload()
+    try:
+        path = 'app/static/doc/index.html'
+        with open(path, 'rb') as f: data = f.read()
+        rep = flask.Response(data)
+        rep.headers['Access-Control-Allow-Origin'] = '*'
+        return rep
+    except Exception:
+        logger.error(traceback.format_exc())
+        return '404 Not Found', 404
+
+@app.route('/doc/<path:name>.<ext>')
+def _doc(name, ext):
+    reload()
+    try:
+        path = 'app/static/doc/{}.{}'.format(name,ext)
+        with open(path, 'rb') as f: data = f.read()
+        rep = flask.Response(data)
+        rep.headers['Access-Control-Allow-Origin'] = '*'
+        ext = ext.split('.')[-1]
+        if ext == 'js':
+            rep.headers['Content-Type'] = 'application/javascript; charset=utf-8'
+        elif ext == 'css':
+            rep.headers['Content-Type'] = 'text/css'
+        elif ext in ['jpg','png','ico']:
+            rep.headers['Content-Type'] = 'image/jpeg'
+        return rep
+    except Exception:
+        logger.error(traceback.format_exc())
+        return '404 Not Found', 404
+
 # API
 @app.route('/<name>/<script>', methods=['GET','POST','PUT','DELETE','HEAD'])
 def _api(name, script):
     reload()
+    # Version
+    ver = tool.Version()
     # Input
     req = flask.request
     args = {'reqH': '', 'reqD': '',}
@@ -38,10 +74,16 @@ def _api(name, script):
         args['reqD'] = {}
         # get
         for key, item in dict(req.args).items():
-            args['reqD'][key] = item[0]
+            if ver.compare('lt', '3.7.1'):
+                args['reqD'][key] = item[0]
+            else:
+                args['reqD'][key] = item
         # post
         for key, item in dict(req.form).items():
-            args['reqD'][key] = item[0]
+            if ver.compare('lt', '3.7.1'):
+                args['reqD'][key] = item[0]
+            else:
+                args['reqD'][key] = item
     # post json data
     if not args['reqD']:
         try:
