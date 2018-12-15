@@ -101,14 +101,20 @@ class Args(object):
     def __len__(self):
         return len(self.args)
 
-    def parse(self, key, default=None):
+    def parse(self, key, default=''):
         arg = ''
-        if default is None or key in self.data:
-            arg = self.data[key]
+        if key in self.data:
+            if not self.data[key] or self.data[key] == '':
+                arg = default
+            else:
+                arg = self.data[key]
         else:
-            arg = default
+            if default != '':
+                arg = default
+            else:
+                error = 'Missing parameters {}'.format(key)
+                raise ValueError(error)
         self.args[key] = arg
-        return arg
 
 class Log(object):
     PATH = sys.path[0] + '/logs/'

@@ -38,8 +38,9 @@ class Mod(mod.REST):
         # self.rspD
 
     def get(self):
+        args = tool.Args(self.reqD)
         try:
-            pass
+            args.parse('msg', datetime.now().strftime('%c'))
         except Exception:
             error = traceback.format_exc()
             self.logger.error(error)
@@ -47,7 +48,7 @@ class Mod(mod.REST):
             self.rspCode = 400
             return
 
-        msg = datetime.now().strftime('%c')
+        msg = args['msg']
         self.rspCode = 200
         self.rspD['data'] = msg
 
