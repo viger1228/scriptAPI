@@ -5,6 +5,7 @@ import os
 import sys
 import json
 import logging
+import flask
 import traceback
 import time
 from datetime import datetime
@@ -48,6 +49,7 @@ class Mod(mod.REST):
             self.rspCode = 400
             return
 
+        self.logger.info(flask.Hello)
         msg = args['msg']
         self.rspCode = 200
         self.rspD['data'] = msg

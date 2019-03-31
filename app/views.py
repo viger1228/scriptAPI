@@ -18,8 +18,10 @@ import flask
 import traceback
 
 from app import app
+from lib import init
 from lib import tool
 
+init.init()
 logger = tool.Log().file_logger(__name__)
 
 # Doc
@@ -117,7 +119,7 @@ def _api(name, script):
         data = json.dumps(rspDict)
 
     # Output
-    rsp = flask.Response(data)
+    rsp = flask.Response(data + '\r\n')
 
     # Default Header
     rsp.headers['Content-Type'] = 'application/json; chaset=utf-8'
