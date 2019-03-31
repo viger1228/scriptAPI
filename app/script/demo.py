@@ -49,7 +49,6 @@ class Mod(mod.REST):
             self.rspCode = 400
             return
 
-        self.logger.info(flask.Hello)
         msg = args['msg']
         self.rspCode = 200
         self.rspD['data'] = msg
