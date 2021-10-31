@@ -1,4 +1,9 @@
 # ScriptAPI
+
+[![](https://img.shields.io/badge/powered%20by-walker-brightgreen.svg?style=flat-square)](https://github.com/viger1228) 
+
+[English](https://github.com/viger1228/scriptAPI/blob/master/README.md) 
+
 **ScriptAPI** is the easy way transfer your python script into RESTful API.
 
 ## Installing
@@ -41,13 +46,13 @@ curl -i 'http://127.0.0.1:9004/script/demo'
     Content-Type: application/json; charset=utf-8
     Content-Length: 92
     Access-Control-Allow-Origin: *
-
+    
     {"data": "Sun May 20 15:43:01 2018", "status": 200, "message": "OK", "rsp_time": "0.00 sec"}
 
 ## Deployment
 Deployment the web server by uwsgi & nginx
 
-Run tht uwsgi
+Run the uwsgi
 
     >> ./uwsgi.sh start
     >> netstat -lnpt | grep 9004
@@ -71,4 +76,6 @@ Setting the nginx
     }   
     >> nginx -s reload
 
+## License
 
+[MIT](https://github.com/viger1228/scriptAPI/blob/master/LICENSE) © Walker
